@@ -204,16 +204,12 @@ class Queue<T>{
 class  NamedValue<T=string>{
     private _value: T | undefined;
     constructor(private name:string){}
-        /**
-         * setValue
-         */
+       
         public setValue(value:T) {
             this._value =value;
             
         }
-        /**
-         * getValue
-         */
+        
         public getValue():T | undefined {
             return this._value;
             
@@ -300,3 +296,214 @@ const point1: Parameters<pointprinter>[0]={
     y:20
 };
 console.log(point1)
+
+
+interface person2{
+    name:string;
+    age:number;
+}
+
+function printpersonpropery(person:person2,property:keyof person2){
+    console.log(`printng person peoperty ${property}:"${property}"`);
+}
+
+let person3 ={
+    name:"max",
+    age:27
+}
+
+printpersonpropery(person3,"name")
+
+
+type stringmap ={[key:string]:unknown};
+function creatstring(property:keyof stringmap, value:string):stringmap{
+    return {[property]: value};
+}
+
+const s1= creatstring("a","s")
+console.log(s1)
+
+let value2:string|undefined|null=null;
+value2 ='hello';
+console.log(typeof value2)
+
+value2= undefined;
+console.log(typeof value2)
+
+
+interface House{
+    sqft:number;
+    yard?:{sqft:number};
+}
+
+function printYardSize(house:House){
+    const yardSize = house.yard?.sqft;
+    if (yardSize === undefined){
+        console.log('no yard')
+    } else{
+        console.log(`Yard is ${yardSize}`)
+    }
+
+} 
+
+let home: House={
+    sqft:500
+};
+
+printYardSize(home);
+
+function printMilleage(mileage:number | null | undefined){
+    console.log(`Mileage: ${mileage ?? 'Not avalable'}`);
+}
+printMilleage(1)
+
+const person4={
+    name:'Maximilian',
+    age:30,
+    hobbies:['sports','cooking']
+}
+
+const person5:{
+    name:string;
+    family:string;
+    mark:[number,number];
+}={
+    name:"samaneh",
+    family:"rezaie",
+    mark:[1,2]
+}
+
+console.log(person5.name)
+
+let fa:string[];
+fa=["a","b","c"]
+
+
+for (let i of fa){
+    console.log(i)
+}
+
+
+
+function combine(input1:number|string,input2:number|string){
+    let result;
+    if (typeof input1==="number" && typeof input2 === "number" ){
+
+        result = input1+input2;
+    } else{
+        result= input1.toString() + input2.toString();
+    }
+    return result;
+}
+
+console.log(combine(1,"s"))
+
+
+function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
+    const result = n1 + n2;
+    cb(result);
+  }
+
+// function printresult(num1:number):void{
+//     console.log("result:" + num1);
+// }
+// let combineValue:(a:number,b:number) => number;
+
+// combineValue=add;
+
+
+
+// console.log(combineValue(2,3))
+
+addAndHandle(10,20,(result)=>{
+    console.log(result);
+    return result;
+})
+
+
+class Department {
+    name: string;
+    employees: string[] = [];
+
+    constructor(n: string) {
+        this.name = n;
+    }
+
+    describe(this: Department) {
+        console.log('Department: ' + this.name);
+    }
+
+    addEmployee(employee: string) {
+        this.employees.push(employee);
+    }
+
+    printEmployeeInformation() {
+        console.log(this.employees.length);
+        console.log(this.employees);
+    }
+}
+
+// const home1=new Department("yas")
+// home1.name="s"
+// // home1.addEmployee('Max');
+// home1.describe()
+
+
+class ITDepartment extends Department {
+    admins:string[];
+    
+    constructor(id:string,admins: string[]){
+        super(id);
+        this.admins=admins;
+    }
+  }
+
+const accounting = new ITDepartment ('d1',['max'])
+console.log(accounting)
+
+class AccountingDepartment extends Department{
+    constructor(id: string,private reports:string[]){
+        super(id)
+    }
+
+    addReport(text:string){
+        this.reports.push(text)
+    }
+
+
+}
+
+class childaccounting extends AccountingDepartment{
+    override addReport(text: string):string {
+        return "hello";
+        
+    }
+}
+const accounting2=new childaccounting('s',['s']);
+console.log(accounting2.addReport("d"))
+
+const accounting1 = new AccountingDepartment ('d1',['max'])
+accounting1.addReport("s")
+console.log(accounting1)
+
+
+class accounts extends Department{
+    private lastReport:string;
+    constructor(id: string,private reports:string[],lastReport:string){
+        super(id)
+        this.lastReport=lastReport;
+    }
+
+    
+
+    get mostRecentReport(){
+        if (this.lastReport){
+            return this.lastReport;
+        }
+        throw new Error('No report found.');
+    }
+}
+
+const accounting3 = new accounts('d1',['max']," ")
+console.log(accounting3.mostRecentReport)
+
